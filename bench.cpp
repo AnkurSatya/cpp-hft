@@ -10,6 +10,8 @@
 #include <numeric>
 #include <random>
 #include <optional>
+#include <list>
+#include <iostream>
 
 using namespace std;
 
@@ -30,7 +32,7 @@ T sum_vector_inorder_access(const vector<T> &data) {
 }
 
 template<typename T>
-T sum_vector_random_access(const vector<T> &data, const vector<uint32_t> &indices){
+T sum_vector_random_access(const vector<T> &data, const vector<size_t> &indices){
     T sum{};
     for (auto i: indices) {
         sum += data[i];
@@ -38,6 +40,16 @@ T sum_vector_random_access(const vector<T> &data, const vector<uint32_t> &indice
     return sum;
 }
 
+template<typename T>
+T sum_list(const list<T> data) {
+    T sum {};
+    for (auto it = data.begin(); it!= data.end(); ++it){
+        sum += *it;
+    }
+    return sum;
+}
+
+// ToDo: Templatise it to test different data types.
 static void BM_vector_access_I32(benchmark::State& state, size_t num_bytes, optional<int32_t> seed = nullopt) {
     // Setup outside 'for (auto _ : state)' is not benchmarked.
     vector<int32_t> data (bytes_to_num_elements<int32_t>(num_bytes), 1);
@@ -49,7 +61,7 @@ static void BM_vector_access_I32(benchmark::State& state, size_t num_bytes, opti
         shuffle(indices.begin(), indices.end(), rng);
 
         for (auto _ : state){
-            int32_t total = sum_vector_inorder_access(data);
+            int32_t total = sum_vector_random_access(data, indices);
             benchmark::DoNotOptimize(total);
             benchmark::ClobberMemory();
         }
@@ -73,16 +85,51 @@ static void BM_vector_access_I32(benchmark::State& state, size_t num_bytes, opti
     state.counters["TotalBytes"] = total_bytes;
 }
 
+
+// ToDo: Templatise it to test different data types.
+static void BM_list_access_I32(benchmark::State& state, size_t num_bytes) {
+    // Setup outside 'for (auto _ : state)' is not benchmarked.
+    list<int32_t> data(bytes_to_num_elements<int32_t>(num_bytes), 1);
+
+    for (auto _ : state){
+        int32_t total = sum_list(data);
+        benchmark::DoNotOptimize(total);
+        benchmark::ClobberMemory();
+    }
+
+    // Could be different from num_bytes because if num_bytes is not a multiple of sizeof(T), then
+    // the vector 'data' size would not be num_bytes.
+    // const size_t bytes_per_iter = data.size() * sizeof(int32_t);
+    // const size_t total_bytes = static_cast<size_t>(state.iterations()) * bytes_per_iter ;// Sum of data across all iterations
+    // state.SetBytesProcessed(static_cast<ssize_t>(total_bytes));
+
+    // // Explicit byte counters printed in the output
+    // state.counters["Bytes/iter"] = static_cast<double>(bytes_per_iter);
+    // state.counters["TotalBytes"] = total_bytes;
+}
+
+
 // BENCHMARK(BM_vector_inorder_access_I32)->RangeMultiplier(8)->Range(16*1024, 128*1024*1024)->ArgName("data(KBs)");
 BENCHMARK_CAPTURE(BM_vector_access_I32, inorder_16KBs, 16 * 1024);
-BENCHMARK_CAPTURE(BM_vector_access_I32, inorder_256KBs, 256 * 1024);
-BENCHMARK_CAPTURE(BM_vector_access_I32, inorder_2MBs, 2 * 1024 * 1024);
-BENCHMARK_CAPTURE(BM_vector_access_I32, inorder_16MBs, 16 * 1024 * 1024);
-BENCHMARK_CAPTURE(BM_vector_access_I32, inorder_128MBs, 128 * 1024 * 1024);
-
 BENCHMARK_CAPTURE(BM_vector_access_I32, random_16KBs, 16 * 1024, 42);
+BENCHMARK_CAPTURE(BM_vector_access_I32, inorder_256KBs, 256 * 1024);
 BENCHMARK_CAPTURE(BM_vector_access_I32, random_256KBs, 256 * 1024, 42);
+BENCHMARK_CAPTURE(BM_vector_access_I32, inorder_2MBs, 2 * 1024 * 1024);
 BENCHMARK_CAPTURE(BM_vector_access_I32, random_2MBs, 2 * 1024 * 1024, 42);
+BENCHMARK_CAPTURE(BM_vector_access_I32, inorder_16MBs, 16 * 1024 * 1024);
 BENCHMARK_CAPTURE(BM_vector_access_I32, random_16MBs, 16 * 1024 * 1024, 42);
+BENCHMARK_CAPTURE(BM_vector_access_I32, inorder_128MBs, 128 * 1024 * 1024);
 BENCHMARK_CAPTURE(BM_vector_access_I32, random_128MBs, 128 * 1024 * 1024, 42);
+
+BENCHMARK_CAPTURE(BM_list_access_I32, 16KB_elements, 16*1024);
+BENCHMARK_CAPTURE(BM_list_access_I32, 16KB_elements, 256*1024);
+BENCHMARK_CAPTURE(BM_list_access_I32, 16KB_elements, 2*1024*1024);
+BENCHMARK_CAPTURE(BM_list_access_I32, 16KB_elements, 16*1024*1024);
+BENCHMARK_CAPTURE(BM_list_access_I32, 16KB_elements, 128*1024*1024);
 BENCHMARK_MAIN();
+
+
+// int main() {
+//     list<int32_t> a {1,2,3};
+//     cout << sum_list(a) << endl;
+// }
