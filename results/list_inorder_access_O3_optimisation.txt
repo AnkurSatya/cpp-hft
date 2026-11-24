@@ -1,0 +1,8 @@
+------------------------------------------------------------------------------------
+Benchmark                          Time             CPU   Iterations UserCounters...
+------------------------------------------------------------------------------------
+BM_list_access_I32/16KBs       10780 ns        10653 ns       100000 Bytes/iter=16.384k TotalBytes=1.6384G bytes_per_second=1.43237Gi/s cache-misses=2.43219 cycles=35.1534k instructions=16.391k
+BM_list_access_I32/256KBs     182404 ns       180074 ns         8633 Bytes/iter=262.144k TotalBytes=2.26309G bytes_per_second=1.35578Gi/s cache-misses=1.65527k cycles=613.456k instructions=262.151k
+BM_list_access_I32/2MBs      1970476 ns      1958799 ns          582 Bytes/iter=2.09715M TotalBytes=1.22054G bytes_per_second=1021.03Mi/s cache-misses=352.105k cycles=6.86065M instructions=2.09716M
+BM_list_access_I32/16MBs    18162863 ns     18043201 ns           86 Bytes/iter=16.7772M TotalBytes=1.44284G bytes_per_second=886.761Mi/s cache-misses=3.12391M cycles=62.9674M instructions=16.7773M
+BM_list_access_I32/128MBs  185877371 ns    184444094 ns           12 Bytes/iter=134.218M TotalBytes=1.61061G bytes_per_second=693.977Mi/s cache-misses=26.0105M cycles=646.71M instructions=134.218M

@@ -1,0 +1,13 @@
+----------------------------------------------------------------------------------------------
+Benchmark                                    Time             CPU   Iterations UserCounters...
+----------------------------------------------------------------------------------------------
+BM_vector_access_I32/inorder_16KBs       20133 ns        19870 ns        73691 Bytes/iter=16.384k TotalBytes=1.20735G bytes_per_second=786.363Mi/s cache-misses=4.06439 cycles=61.9204k instructions=163.899k
+BM_vector_access_I32/random_16KBs        56297 ns        55814 ns        22277 Bytes/iter=16.384k TotalBytes=364.986M bytes_per_second=279.95Mi/s cache-misses=20.4793 cycles=184.039k instructions=364.706k
+BM_vector_access_I32/inorder_256KBs     299981 ns       297134 ns         4883 Bytes/iter=262.144k TotalBytes=1.28005G bytes_per_second=841.372Mi/s cache-misses=376.306 cycles=971.883k instructions=2.6215M
+BM_vector_access_I32/random_256KBs     1085868 ns      1071001 ns         1378 Bytes/iter=262.144k TotalBytes=361.234M bytes_per_second=233.427Mi/s cache-misses=5.0689k cycles=3.46545M instructions=5.83287M
+BM_vector_access_I32/inorder_2MBs      2732896 ns      2695224 ns          574 Bytes/iter=2.09715M TotalBytes=1.20377G bytes_per_second=742.053Mi/s cache-misses=27.5732k cycles=8.64684M instructions=20.9716M
+BM_vector_access_I32/random_2MBs      12125304 ns     11963550 ns          146 Bytes/iter=2.09715M TotalBytes=306.184M bytes_per_second=167.174Mi/s cache-misses=200.779k cycles=38.9718M instructions=46.6618M
+BM_vector_access_I32/inorder_16MBs    20046715 ns     19836689 ns           70 Bytes/iter=16.7772M TotalBytes=1.17441G bytes_per_second=806.586Mi/s cache-misses=425.712k cycles=65.2334M instructions=167.772M
+BM_vector_access_I32/random_16MBs    183771449 ns    183206170 ns            8 Bytes/iter=16.7772M TotalBytes=134.218M bytes_per_second=87.3333Mi/s cache-misses=10.1679M cycles=652.328M instructions=373.294M
+BM_vector_access_I32/inorder_128MBs  145801643 ns    145235134 ns           10 Bytes/iter=134.218M TotalBytes=1.34218G bytes_per_second=881.329Mi/s cache-misses=3.4121M cycles=498.713M instructions=1.34218G
+BM_vector_access_I32/random_128MBs  1745137467 ns   1737830507 ns            1 Bytes/iter=134.218M TotalBytes=134.218M bytes_per_second=73.6551Mi/s cache-misses=105.912M cycles=6.16983G instructions=2.98635G
